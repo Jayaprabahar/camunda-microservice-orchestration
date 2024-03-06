@@ -1,2 +1,7 @@
 server:
   port: 8085
+
+aws.access_key_id: AKIAVYAY2QEIFUHTYPZC
+aws.secret_access_key: 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
+aws.region: eu-west-3
+aws.bucket: camunda-ecommerce-order-bucket

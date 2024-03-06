@@ -10,6 +10,6 @@ spring:
           auth: 'true'
     host: smtp.gmail.com
     username: jpofficial@gmail.com
-    password: ${GMAIL_AUTH_TOKEN}
+    password: dieiqqvhxgpbfbue
     port: 587
 

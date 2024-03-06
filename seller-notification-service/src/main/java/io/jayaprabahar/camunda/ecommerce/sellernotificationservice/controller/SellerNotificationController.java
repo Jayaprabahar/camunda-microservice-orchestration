@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/seller-notification")
 @Slf4j
@@ -20,9 +22,8 @@ public class SellerNotificationController {
     }
 
     @PostMapping("/sendOrder")
-    public ResponseEntity<Object> sendMessage(@RequestBody CartDataDto cartDataDto) throws JsonProcessingException {
-        return new ResponseEntity<>(HttpStatus.valueOf(
-                sellerNotificationService.sendMessage(cartDataDto)
-        ));
+    public ResponseEntity<Object> sendMessage(@RequestBody CartDataDto cartDataDto) throws IOException {
+        sellerNotificationService.sendMessage(cartDataDto);
+        return new ResponseEntity<>("Seller is informed", HttpStatus.ACCEPTED);
     }
 }

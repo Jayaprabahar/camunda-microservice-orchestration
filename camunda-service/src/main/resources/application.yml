@@ -4,13 +4,13 @@ server:
 zeebe:
   client:
     cloud:
-      cluster-id: ${ZEEBE_CLUSTER_ID}
-      client-secret: ${ZEEBE_CLIENT_SECRET}
-      client-id: ${ZEEBE_CLIENT_ID}
-      region: ${ZEEBE_CLIENT_REGION}
+      region: bru-2
+      clusterId: a5d886a1-dd23-4014-af0f-3661361924d0
+      clientId: mB58ydJN1iJXoTiT2UTD-iTwyFt7zHEX
+      clientSecret: llCui2c_r.nmvmbtMSVweatM0XuwR_M0naoGEmIbVoFfJ8Zb~Ahw90xvZ9a5zYy~
 
 seller:
-  mail-address: jpofficial@gmail.com
+  mail-address: wowiw70991@fashlend.com
 # You can also configure the connection to a self-managed Zeebe broker:
 #    broker:
 #      gateway-address: 127.0.0.1:26500
