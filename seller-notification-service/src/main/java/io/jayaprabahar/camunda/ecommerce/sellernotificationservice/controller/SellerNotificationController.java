@@ -1,6 +1,5 @@
 package io.jayaprabahar.camunda.ecommerce.sellernotificationservice.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.jayaprabahar.camunda.ecommerce.common.dto.CartDataDto;
 import io.jayaprabahar.camunda.ecommerce.sellernotificationservice.service.SellerNotificationService;
 import lombok.extern.slf4j.Slf4j;

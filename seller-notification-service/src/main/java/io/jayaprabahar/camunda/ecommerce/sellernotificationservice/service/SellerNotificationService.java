@@ -2,7 +2,6 @@ package io.jayaprabahar.camunda.ecommerce.sellernotificationservice.service;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jayaprabahar.camunda.ecommerce.common.dto.CartDataDto;
 import lombok.extern.slf4j.Slf4j;
@@ -14,8 +13,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.time.LocalDateTime;
-
 
 @Service
 @Slf4j
