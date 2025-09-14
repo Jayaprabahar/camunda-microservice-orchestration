@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+    Awesome Camunda eCommerce Checkout
+  </title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: sans-serif;
+      background: #5e22ea;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 5px;
+      width: 500px;
+      position: relative;
+    }
+
+    .header {
+      border-bottom: 1px solid #f0f0f0;
+      background: #f7f7f7;
+      padding: 20px 40px;
+    }
+
+    .header h1 {
+      margin: 0;
+      text-align: center;
+    }
+
+    .form {
+      padding: 40px 40px;
+      /* visibility: hidden; */
+    }
+
+    .form-control {
+      margin-bottom: 10px;
+    }
+
+    .form-control label {
+      display: inline-block;
+      margin-bottom: 5px;
+    }
+
+    .form-control input {
+      border: 2px solid #f0f0f0;
+      border-radius: 4px;
+      display: block;
+      font-size: 14px;
+      padding: 10px;
+      width: 100%;
+    }
+
+    .form-control input:focus {
+      outline: none;
+      border-color: #777;
+    }
+
+    .form-control.error input {
+      border-color: red;
+    }
+
+    .form-control small {
+      color: red;
+      /* position: absolute;
+      left: 0;
+      bottom: 0; */
+      visibility: hidden;
+    }
+
+    .form-control.error small {
+      visibility: visible;
+    }
+
+    .form button {
+      background: #5e22ea;
+      border: none;
+      color: white;
+      font-size: 16px;
+      padding: 10px;
+      border-radius: 4px;
+      width: 100%;
+    }
+
+    .cartId {
+      display: block;
+      padding: 40px;
+    }
+
+    .cartId.toggle {
+      display: none;
+    }
+
+    .form.toggle {
+      display: none;
+    }
+
+    .new button {
+      position: absolute;
+      right: 10px;
+      background: #5e22ea;
+      border: none;
+      color: white;
+      font-size: 16px;
+      padding: 10px;
+      border-radius: 4px;
+      /* width: 100%; */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Shopping Cart</h1>
+    </div>
+
+    <div class="new">
+      <button id="new" type="submit" value="submit">
+        NEW
+      </button>
+    </div>
+    <div id="cartId" class="cartId toggle">
+      <label>CartId: </label>
+      <span></span>
+    </div>
+    <!-- Create Form -->
+    <form class="form" id="checkoutForm" action="http://localhost:8082/cart/checkOut" method="POST">
+      <div class="form-control">
+        <label for="name" id="label-name">Name</label>
+        <input type="text" name="name" id="name" placeholder="Enter your name" autocomplete="off" />
+        <small class="error">Error message </small>
+      </div>
+      <div class="form-control">
+        <label for="email" id="label-email">Email Id</label>
+        <input type="email" name="email" id="email" placeholder="Enter your email" autocomplete="off" />
+        <small class="error">Error message </small>
+      </div>
+      <div class="form-control">
+        <label for="address" id="label-address">Post Code and House number</label>
+        <input type="text" name="address" id="address" placeholder="Enter your address" autocomplete="off" />
+        <small class="error">Error message </small>
+      </div>
+      <div class="form-control">
+        <label for="amount" id="label-amount">Invoice Amount</label>
+        <input type="number" name="amount" id="amount" placeholder="Total Amount" autocomplete="off" />
+        <small class="error">Error message </small>
+      </div>
+
+      <div class="form-control">
+        <label for="product" id="label-product">Product List</label>
+        <input type="text" name="product" id="product" placeholder="Enter your products" autocomplete="off" />
+        <small class="error">Error message </small>
+      </div>
+
+      <!-- Multi-line Text Input Control -->
+      <button type="submit" value="submit">
+        Checkout
+      </button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById("checkoutForm");
+    const name = document.getElementById("name");
+    const email = document.getElementById("email");
+    const address = document.getElementById("address");
+    const amount = document.getElementById("amount");
+    const product = document.getElementById("product");
+    const cartId = document.getElementById("cartId");
+    const newForm = document.getElementById("new");
+    newForm.addEventListener("click", e => {
+      name.value = "";
+      email.value = "";
+      address.value = "";
+      amount.value = "";
+      product.value = "";
+      form.className = "form";
+      cartId.className = "cartId toggle";
+
+    });
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      if (checkInput()) {
+        // let response = "123-122";
+        const data = new URLSearchParams(new FormData(document.getElementById("checkoutForm")));
+        let response = await fetch("http://localhost:8082/cart/checkOut", {
+          method: 'post',
+          body: data,
+        });
+        cartId.children[1].innerText = await response;
+        cartId.className = "cartId";
+        form.className = "form toggle";
+      } else {
+        cartId.innerText = "";
+      }
+    });
+    function checkInput() {
+      let msg = [];
+      if (name.value.trim() === "") {
+        msg.push("err");
+        setError(name, "Name cannot be empty");
+      }
+      else success(name);
+      if (email.value.trim() === "") {
+        msg.push("err");
+        setError(email, "email cannot be empty");
+      }
+      else success(email);
+      if (address.value.trim() === "") {
+        msg.push("err");
+        setError(address, "address cannot be empty");
+      }
+      else success(address);
+      if (amount.value.trim() === "") {
+        msg.push("err");
+        setError(amount, "amount cannot be empty");
+      }
+      else success(amount);
+      if (product.value.trim() === "") {
+        msg.push("err");
+        setError(product, "product cannot be empty");
+      }
+      else success(product);
+      return msg.length === 0;
+    }
+    function setError(input, msg) {
+      const formControl = input.parentElement;
+      const small = formControl.querySelector('small');
+      formControl.className = "form-control error";
+      small.innerText = msg;
+    }
+    function success(input) {
+      const formControl = input.parentElement;
+      console.log("formControl ", formControl);
+      const small = formControl.querySelector('small');
+      formControl.className = "form-control";
+      small.innerText = "Success";
+    }
+
+  </script>
+
+</body>
+
+</html>
+
+
+<!-- fetch(, {
+  method: "post",
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    name: name.value,
+    email: email.value,
+    address: address.value,
+    amount: amount.value,
+    product: product.value,
+  })
+})
+  .then((response) => {
+    return response;
+  }); -->
