@@ -1,6 +1,3 @@
-# camunda-ecommerce
-An ecommerce project explains process based microservice orchestration using camunda
-
 # camunda-microservice-orchestration
 
 Enterprise-ready reference implementation demonstrating process-driven microservice orchestration using Camunda (Zeebe) and Spring Boot.
